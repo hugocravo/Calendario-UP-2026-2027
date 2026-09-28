@@ -1,82 +1,237 @@
-body {
-  font-family: "Inter", Arial, sans-serif;
-  margin: 0;
-  background: #f5f6f8;
-  color: #333;
+:root {
+  --bg: #f5f6f8;
+  --card-bg: #ffffff;
+  --primary: #3a5ba0;
+  --primary-soft: #e8eef7;
+  --text-main: #333;
+  --text-muted: #666;
+  --radius: 10px;
+  --shadow: 0 8px 20px rgba(0,0,0,0.06);
+  --transition-fast: 0.2s ease-out;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+/* HEADER */
+
 header {
-  background: #3a5ba0;
+  background: linear-gradient(135deg, #3a5ba0, #4c7bd1);
   color: white;
-  padding: 2rem;
+  padding: 2.5rem 1.5rem;
   text-align: center;
 }
 
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+header p {
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+/* NAV */
+
 nav {
   background: #ffffff;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e0e3ea;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 nav a {
-  padding: 0.5rem 1rem;
-  background: #e8eef7;
-  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  background: var(--primary-soft);
+  border-radius: 999px;
   text-decoration: none;
   color: #2a3d66;
   font-weight: 600;
+  font-size: 0.9rem;
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 nav a:hover {
   background: #d4def0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
+
+/* LAYOUT */
+
+section {
+  max-width: 1000px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+
+/* CALENDÁRIO */
 
 .calendar table {
-  width: 90%;
-  margin: 2rem auto;
+  width: 100%;
   border-collapse: collapse;
-  background: white;
-  border-radius: 8px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
   overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: fadeInUp 0.4s ease-out;
 }
 
-.calendar th, .calendar td {
-  padding: 1rem;
+.calendar thead {
+  background: var(--primary-soft);
+}
+
+.calendar th,
+.calendar td {
+  padding: 0.9rem 0.4rem;
   text-align: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f2f7;
+  font-size: 0.95rem;
 }
 
 .calendar th {
-  background: #e8eef7;
   font-weight: 600;
+  color: #2a3d66;
 }
 
+.calendar td {
+  position: relative;
+  cursor: default;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.calendar td:not(:empty):hover {
+  background: #f7f9ff;
+  transform: scale(1.03);
+}
+
+/* “badge” de dia (opcional) */
+
+.calendar td:not(:empty)::after {
+  content: attr(data-day);
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* EVENTOS */
+
 .events {
-  width: 90%;
-  margin: 2rem auto;
-  background: white;
+  background: var(--card-bg);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.events h2 {
+  margin-top: 0;
 }
 
 .events ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .events li {
   padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f2f7;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
+
+.events li:last-child {
+  border-bottom: none;
+}
+
+.events li strong {
+  color: var(--primary);
+}
+
+.events li:hover {
+  background: #f8f9fc;
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* FOOTER */
 
 footer {
   text-align: center;
-  padding: 1rem;
+  padding: 1.2rem;
   background: #3a5ba0;
   color: white;
   margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  .calendar th,
+  .calendar td {
+    padding: 0.6rem 0.2rem;
+    font-size: 0.8rem;
+  }
+
+  nav {
+    justify-content: flex-start;
+  }
+
+  nav a {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar table {
+    font-size: 0.75rem;
+  }
+
+  .events {
+    padding: 1.1rem;
+  }
+}
+
+/* ANIMAÇÕES */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.calendar td.selected-day {
+  background: #dfe7ff !important;
+  transform: scale(1.05);
+  font-weight: 700;
+  color: #2a3d66;
 }
